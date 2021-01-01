@@ -40,6 +40,7 @@ class Topics extends React.Component {
             <Redirect to="/" />
         ) : (
                 <div className="container">
+
                     <h3>{this.state.routeParam}:</h3>
                     <ul>
                         {this.state.data ? this.state.data.map((item) => (
