@@ -1,16 +1,24 @@
 import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
+import Items from "./components/Items/Items";
 import './App.css';
 
 function App() {
     return (
-        <div className="App">
-            <div className="wrapper">
-                <Navbar/>
+        <Router>
+            <div className="App">
+                <div className="wrapper">
+                    <Navbar />
+                    <Switch>
+                        {/* <Route path="/" exact component={Home} /> */}
+                        <Route path="/:collection" exact component={Items} />
+                    </Switch>
+                </div>
+                <Footer />
             </div>
-            <Footer/>
-        </div>
+        </Router>
     );
 }
 
