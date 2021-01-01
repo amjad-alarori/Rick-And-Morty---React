@@ -1,0 +1,4 @@
+.container {
+    margin: 10px 10vw;
+    height: calc(100% - 100px);
+}
