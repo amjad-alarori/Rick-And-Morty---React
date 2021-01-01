@@ -1,5 +1,5 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import "./Topics.css";
 
 class Topics extends React.Component {
@@ -36,21 +36,15 @@ class Topics extends React.Component {
     }
 
     render() {
-        let items = this.state.data;
-        let list = '';
-        if (items !== undefined) {
-            list = (items.map((item) => (
-                <li key={item.id}>{item.name}</li>
-            )));
-        }
-
         return this.state.redirect ? (
             <Redirect to="/" />
         ) : (
                 <div className="container">
                     <h3>{this.state.routeParam}:</h3>
                     <ul>
-                        {list}
+                        {this.state.data ? this.state.data.map((item) => (
+                            <li key={item.id}><Link to={`/${this.state.routeParam}/${item.id}`}>{item.name}</Link></li>
+                        )) : []}
                     </ul>
                 </div>
             );
