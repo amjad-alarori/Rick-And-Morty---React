@@ -8,3 +8,8 @@
 html, body, #root, .App {
   height: 100%;
 }
+
+.container {
+  margin: 10px 10vw;
+  height: calc(100% - 100px);
+}
