@@ -1,15 +1,16 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { Switch } from "react-router-dom";
+import  RouteWithSubRoutes  from "../Routes/RouteWithSubRoutes";
 import "./Topic.css";
 
 class Topic extends React.Component {
-
     constructor(props) {
         super(props);
 
         this.state = {
-            redirect: false,
-            routeParam: props.match.params,
+            routes: props.routes,
+            routeParam: props.match.params.topic,
             endpoints: {
                 "characters": "https://rickandmortyapi.com/api/character",
                 "locations": "https://rickandmortyapi.com/api/location",
@@ -19,36 +20,37 @@ class Topic extends React.Component {
     }
 
     componentDidMount() {
-        let topics = this.state.routeParam.topics;
-        let topicId = this.state.routeParam.id;
+        let topic = this.state.routeParam;
 
-        if (topics in this.state.endpoints) {
-            let url = this.state.endpoints[topics] + "/" + topicId;
+        let url = this.state.endpoints[topic];
 
-            fetch(url)
-                .then(res => res.json())
-                .then((result) => {
-                    this.setState({ data: result });
-                }, () => {
-                    this.setState({ data: {} })
-                });
-        } else {
-            this.setState({ redirect: true });
-        }
+        fetch(url)
+            .then(res => res.json())
+            .then((result) => {
+                this.setState({ data: result.results });
+            }, () => {
+                this.setState({ data: [] })
+            });
     }
 
     render() {
-        return this.state.redirect ? (
-            <Redirect to="/" />
-        ) : (
-                <div className="container">
-                    <h3>{this.state.routeParam.topics}:</h3>
-                    {(this.state.data && this.state.data.hasOwnProperty('name')) ? <span>Name: {this.state.data.name}<br /></span> : ''}
-                    {(this.state.data && this.state.data.hasOwnProperty('gender')) ? (<span>gender:{this.state.data.gender}<br /></span>) : ''}
-                    {(this.state.data && this.state.data.hasOwnProperty('image')) ? <img src={this.state.data.image} alt=""/> : ''}
-                </div>
-            );
+        return (
+            <React.Fragment>
+                <Switch>
+                    {this.state.routes.map((route, i) => (
+                        <RouteWithSubRoutes key={i} {...route} />
+                    ))}
+                </Switch>
+                
+                <h3>{this.state.routeParam}:</h3>
+                <ul>
+                    {this.state.data ? this.state.data.map((item) => (
+                        <li key={item.id}><Link to={`/${this.state.routeParam}/${item.id}`}>{item.name}</Link></li>
+                    )) : []}
+                </ul>
+            </React.Fragment>
+        );
     }
 }
 
-export default Topic
+export default Topic;
