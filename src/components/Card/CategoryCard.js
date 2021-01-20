@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
-import './Card.css'
+import './CategoryCard.css'
 import { Button } from 'react-bootstrap';
 import { Card } from 'react-bootstrap';
 
 
-class ItemCard extends Component{
+class CategoryCard extends Component{
 
   
 
     render(){
         return(
             <Card>
-                 <Card.Header><Card.Title>{this.props.title}</Card.Title></Card.Header>
-                {/* <Card.Img variant="top" src={this.props.image} /> */}
+              
                 <Card.Body>
                    
                     <Card.Text>
@@ -25,4 +24,4 @@ class ItemCard extends Component{
 
 }
 
-export default ItemCard;
+export default CategoryCard;

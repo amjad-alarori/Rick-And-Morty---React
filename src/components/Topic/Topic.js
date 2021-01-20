@@ -146,10 +146,10 @@ class Topic extends React.Component {
                             {this.state.data ? this.state.data.map((item) => (
                                 <Link key={item.id} to={`/${this.state.routeParam}/${item.id}`}>
                                     <ItemCard title={item.name}>
-                                        {item.gender ? <React.Fragment>{item.gender} <br /></React.Fragment> : ""}
-                                        {item.status ? <span>{item.status} <br /></span> : ""}
-                                        {item.type ? <div>{item.type} <br /></div> : ""}
-                                        {item.dimension ? <>{item.dimension} <br /></> : ""}
+                                        {item.gender ? <React.Fragment> Gender: {item.gender} <br /></React.Fragment> : ""}
+                                        {item.status ? <span> Status: {item.status} <br /></span> : ""}
+                                        {item.type ? <div> Type: {item.type} <br /></div> : ""}
+                                        {item.dimension ? <> Dimension: {item.dimension} <br /></> : ""}
                                     </ItemCard>
                                 </Link>
                             )) : []}
@@ -158,7 +158,7 @@ class Topic extends React.Component {
                             {this.state.info ?
                                 <>
                                     <a href={this.state.info.prev}>vorige</a>
-                                    <span>hier komt de page nummer</span>
+                                    <span>hier komt het page nummer</span>
                                     <a href={this.state.info.next}>Next</a>
                                 </>
                                 : ''}
