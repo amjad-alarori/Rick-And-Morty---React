@@ -1,0 +1,7 @@
+.card{
+    width: 20rem;
+    text-decoration: none !important;
+    font-weight: bold;
+    color: coral;
+    margin: 20px;
+}

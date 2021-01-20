@@ -3,6 +3,7 @@ import {Link, Route} from "react-router-dom";
 import {Switch} from "react-router-dom";
 import RouteWithSubRoutes from "../Routes/RouteWithSubRoutes";
 import "./Topic.css";
+import ItemCard from "../Card/ItemCard";
 
 class Topic extends React.Component {
     constructor(props) {
@@ -141,12 +142,27 @@ class Topic extends React.Component {
                                     ))}
                                 </select> : null
                         ))}
-                        <ul>
+                        <div className="flex-row">
                             {this.state.data ? this.state.data.map((item) => (
-                                <li key={item.id}><Link to={`/${this.state.routeParam}/${item.id}`}>{item.id} {item.name}</Link>
-                                </li>
+                                <Link key={item.id} to={`/${this.state.routeParam}/${item.id}`}>
+                                    <ItemCard title={item.name}>
+                                        {item.gender ? <React.Fragment>{item.gender} <br /></React.Fragment> : ""}
+                                        {item.status ? <span>{item.status} <br /></span> : ""}
+                                        {item.type ? <div>{item.type} <br /></div> : ""}
+                                        {item.dimension ? <>{item.dimension} <br /></> : ""}
+                                    </ItemCard>
+                                </Link>
                             )) : []}
-                        </ul>
+                        </div>
+                        <div className="flex-row">
+                            {this.state.info ?
+                                <>
+                                    <a href={this.state.info.prev}>vorige</a>
+                                    <span>hier komt de page nummer</span>
+                                    <a href={this.state.info.next}>Next</a>
+                                </>
+                                : ''}
+                        </div>
                     </Route>
                 </Switch>
             </React.Fragment>
