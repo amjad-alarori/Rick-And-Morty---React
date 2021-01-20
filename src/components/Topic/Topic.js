@@ -69,7 +69,7 @@ class Topic extends React.Component {
         }else{
             url += page === 1?"":'?page='+page;
         }
-        
+
         fetch(url)
             .then(res => res.json())
             .then((result) => {
@@ -129,6 +129,7 @@ class Topic extends React.Component {
                     <Route>
                         <h3>{this.state.routeParam}:</h3>
                         {/*Loop over each filter*/}
+                        <input type="text" onChange={this.fetchWithGet} name="name"/>
                         {Object.keys(this.state.filter).map((item) => (
                             // If filter is not empty array create select
                             this.state.filter[item].length > 0 ?
