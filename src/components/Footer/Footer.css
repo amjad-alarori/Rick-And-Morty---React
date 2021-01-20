@@ -13,5 +13,5 @@ footer span {
 }
 
 .wrapper {
-    height: calc(100% - 55px);
+    min-height: calc(100% - 55px);
 }

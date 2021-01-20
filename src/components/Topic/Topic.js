@@ -11,9 +11,13 @@ class Topic extends React.Component {
         this.fetchData = this.fetchData.bind(this);
         this.fetchWithGet = this.fetchWithGet.bind(this);
 
+        let pageParam = props.location.search;
+        pageParam = pageParam.lastIndexOf("?page=")>=0?pageParam.substr(pageParam.lastIndexOf("?page=")+6):1
+
         this.state = {
             routes: props.routes,
             routeParam: props.match.params.topic,
+            page: pageParam,
             endpoints: {
                 characters: {
                     url: "https://rickandmortyapi.com/api/character",
@@ -52,6 +56,7 @@ class Topic extends React.Component {
 
     fetchData() {
         let topic = this.state.routeParam;
+        let page = this.state.page;
         let url = this.state.endpoints[topic].url;
         let filter = this.state.endpoints[topic].filters;
 
@@ -60,7 +65,10 @@ class Topic extends React.Component {
         if (query_string !== "") {
             // If not empty append query to url
             url += "?" + query_string
+        }else{
+            url = page === 1?this.state.endpoints[topic]:this.state.endpoints[topic]+'?page='+page;
         }
+        
         fetch(url)
             .then(res => res.json())
             .then((result) => {
