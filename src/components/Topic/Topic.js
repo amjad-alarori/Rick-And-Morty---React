@@ -8,21 +8,25 @@ class Topic extends React.Component {
     constructor(props) {
         super(props);
 
+        let pageParam = props.location.search;
+        pageParam = pageParam.lastIndexOf("?page=")>=0?pageParam.substr(pageParam.lastIndexOf("?page=")+6):1
+
         this.state = {
             routes: props.routes,
             routeParam: props.match.params.topic,
+            page: pageParam,
             endpoints: {
-                "character": "https://rickandmortyapi.com/api/character",
-                "location": "https://rickandmortyapi.com/api/location",
-                "episode": "https://rickandmortyapi.com/api/episode",
+                "characters": "https://rickandmortyapi.com/api/character",
+                "locations": "https://rickandmortyapi.com/api/location",
+                "episodes": "https://rickandmortyapi.com/api/episode",
             }
         };
     }
 
     componentDidMount() {
         let topic = this.state.routeParam;
-
-        let url = this.state.endpoints[topic];
+        let page = this.state.page;
+        let url = page === 1?this.state.endpoints[topic]:this.state.endpoints[topic]+'?page='+page;
 
         fetch(url)
             .then(res => res.json())

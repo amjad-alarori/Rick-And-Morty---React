@@ -11,9 +11,9 @@ class Item extends React.Component {
         this.state = {
             routeParam: props.match.params,
             endpoints: {
-                "character": "https://rickandmortyapi.com/api/character",
-                "location": "https://rickandmortyapi.com/api/location",
-                "episode": "https://rickandmortyapi.com/api/episode",
+                "characters": "https://rickandmortyapi.com/api/character",
+                "locations": "https://rickandmortyapi.com/api/location",
+                "episodes": "https://rickandmortyapi.com/api/episode",
             }
         };
     }
@@ -28,63 +28,134 @@ class Item extends React.Component {
             .then(res => res.json())
             .then((result) => {
                 this.setState({ data: result });
+                if (this.state.routeParam.topic === "characters") {
+                    let episodes = []
+                    result.episode.map(episode => {
+                        let indexedEpisode = episode.lastIndexOf("/");
+                        let episodeNumber = episode.substring(indexedEpisode + 1)
+
+                        episodes.push(episodeNumber);
+
+                        if (result.episode.length === episodes.length) {
+                            fetch(`https://rickandmortyapi.com/api/episode/${episodes}`)
+                                .then(res => res.json())
+                                .then((result) => {
+                                    result.length > 1 ?
+                                        this.setState({ episodes: result }) :
+                                        this.setState({ episodes: [result] });
+                                }, () => {
+                                    this.setState({ episodes: {} })
+                                });
+                        }
+                        return episode;
+                    })
+                } else if (this.state.routeParam.topic === "locations" || this.state.routeParam.topic === "episodes") {
+                    let characters = []
+
+                    let fetchchars = [];
+                    if (this.state.routeParam.topic === "locations") {
+                        fetchchars = result.residents;
+                    } else {
+                        fetchchars = result.characters;
+                    }
+
+                    fetchchars.map(character => {
+                        let latIndex = character.lastIndexOf("/");
+                        let charId = character.substring(latIndex + 1)
+
+                        characters.push(charId);
+
+                        if (fetchchars.length === characters.length) {
+                            fetch(`https://rickandmortyapi.com/api/character/${characters}`)
+                                .then(res => res.json())
+                                .then((result) => {
+                                    result.length > 1 ?
+                                        this.setState({ characters: result }) :
+                                        this.setState({ characters: [result] });
+                                }, () => {
+                                    this.setState({ characters: {} })
+                                });
+                        }
+                        return characters;
+                    })
+                }
             }, () => {
                 this.setState({ data: {} })
             });
     }
 
     urlSet = (url) => {
-        return url.substr(31);
-    };
+        let indexId = url.lastIndexOf("/")
+        let id = url.substr(indexId + 1)
 
-    episodeName = (url) => {
-        fetch(url)
-            .then(res => res.json())
-            .then((result) => {
-                // console.log(result);
-                this.setState({ episodes:[result.name] });
-            }, () => {
-                return "";
-            });
-    }
+        let indexSoort = url.lastIndexOf("/", indexId - 1)
+        let soort = url.substr(indexSoort + 1, indexId - indexSoort - 1)
+
+        return "/" + soort + "s/" + id;
+    };
 
     render() {
         return (
             <React.Fragment>
-                <div id="itemCard" className="border rounded m-5 p-5 w-full">
+                <div id="itemCard" className="border rounded m-5 p-5 radios5">
                     <Row>
                         {(this.state.data && this.state.data.hasOwnProperty('image')) ? <Col><img className="rounded" src={this.state.data.image} alt="" /></Col> : ''}
                         <Col>
-                            {(this.state.data && this.state.data.hasOwnProperty('name')) ?
-                                <h3>Name: {this.state.data.name}<br /></h3> : ''}
-                            {(this.state.data && this.state.data.hasOwnProperty('status')) ?
-                                (<span>status: {this.state.data.status}
-                                    <span className={this.state.data.status === "Dead" ? "dead" : "alive"}></span> <br />
-                                </span>) : ''}
-                            {(this.state.data && this.state.data.hasOwnProperty('species')) ?
-                                (<span>species: {this.state.data.species}<br /></span>) : ''}
-                            {(this.state.data && this.state.data.hasOwnProperty('type')) ?
-                                (<span>gender: {this.state.data.type}<br /></span>) : ''}
-                            {(this.state.data && this.state.data.hasOwnProperty('gender')) ?
-                                (<span>gender: {this.state.data.gender}<br /></span>) : ''}
-                            {(this.state.data && this.state.data.hasOwnProperty('origin')) ?
-                                (<span>origin: <a href={this.urlSet(this.state.data.origin.url)}>
-                                    {this.state.data.origin.name}</a><br />
-                                </span>) : ''}
-                            {(this.state.data && this.state.data.hasOwnProperty('episode') && Array.isArray(this.state.data.episode)) ?
-                                <React.Fragment>
-                                    episodes:<br />
-                                    <div className="overflow-auto w-full pr-5" style={{ height: 120 }}>
-                                        {this.state.data.episode.map((episode, i) => {
-                                            return (
-                                                <React.Fragment key={i}>
-                                                    {/* <a href={this.urlSet(episode)}>{this.episodeName(episode)}</a><br /> */}
-                                                    <a href={this.urlSet(episode)}>{episode}</a><br />
-                                                </React.Fragment>
-                                            )
-                                        })}
-                                    </div>
-                                </React.Fragment> : ""}
+                            <div className="flex-col">
+                                {
+                                    this.state.data ?
+                                        <>
+                                            {this.state.data.hasOwnProperty('name') ? <h3>Name: {this.state.data.name}</h3> : ''}
+                                            {this.state.data.hasOwnProperty('status') ?
+                                                <span>Status: {this.state.data.status}
+                                                    <span className={this.state.data.status === "Dead" ? "dead" : this.state.data.status === "alive" ? "alive" : "unknown"} />
+                                                </span>
+                                                : ''}
+                                            {this.state.data.hasOwnProperty('species') ? <span>Species: {this.state.data.species}</span> : ''}
+                                            {this.state.data.hasOwnProperty('type') ? <span>Type: {this.state.data.type}</span> : ''}
+                                            {this.state.data.hasOwnProperty('dimension') ? <span>Dimension: {this.state.data.dimension}</span> : ''}
+                                            {this.state.data.hasOwnProperty('gender') ? <span>Gender: {this.state.data.gender}</span> : ''}
+                                            {this.state.data.hasOwnProperty('origin') ?
+                                                <span>Origin: {this.state.data.origin.url.length > 0 ?
+                                                    <a href={this.urlSet(this.state.data.origin.url)}>{this.state.data.origin.name}</a> :
+                                                    this.state.data.origin.name}
+                                                </span>
+                                                : ''}
+                                            {this.state.data.hasOwnProperty('episode') ?
+                                                Array.isArray(this.state.data.episode) ?
+                                                    <>
+                                                        Episodes:
+                                                        <div className="episodesBox">
+                                                            <div id="customScroll" className="flex-col overflow-auto w-full pr-5" style={{ height: 120 }}>
+                                                                {this.state.episodes && this.state.episodes.map((episode, i) => {
+                                                                    return episode.url.length > 0 ? <a key={i} href={this.urlSet(episode.url)}>{episode.name}</a> : <span key={i}>{episode.name}</span>
+                                                                })}
+                                                            </div>
+                                                        </div>
+                                                    </>
+                                                    :
+                                                    <>
+                                                        <span>Episode: {this.state.data.episode}</span>
+                                                    </>
+                                                :
+                                                ""}
+                                            {(this.state.data.hasOwnProperty('residents') && Array.isArray(this.state.data.residents)) || (this.state.data.hasOwnProperty('characters') && Array.isArray(this.state.data.characters)) ?
+                                                <>
+                                                    Characters last seen on this location:
+                                                    <div className="episodesBox">
+                                                        <div id="customScroll" className="flex-col overflow-auto w-full pr-5" style={{ height: 120 }}>
+                                                            {this.state.characters && this.state.characters.map((character, i) => {
+                                                                return character.url.length > 0 ? <a key={i} href={this.urlSet(character.url)}>{character.name}</a> : <span key={i}>{character.name}</span>
+                                                            })}
+                                                        </div>
+                                                    </div>
+                                                </> : ""}
+                                        </>
+                                        : ""}
+
+
+
+                            </div>
                         </Col>
                     </Row>
                 </div>
