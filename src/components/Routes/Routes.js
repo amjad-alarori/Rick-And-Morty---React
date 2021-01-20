@@ -4,11 +4,11 @@ import Item from "./../Item/Item";
 
 export const routes = [
     {
-        path: '/:topic(characters|locations|episodes)',
+        path: '/:topic(character|location|episode)',
         component: Topic,
         routes: [
             {
-                path: '/:topic(characters|locations|episodes)/:id',
+                path: '/:topic(character|location|episode)/:id',
                 component: Item,
             },
         ],

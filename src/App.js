@@ -5,6 +5,9 @@ import RouteWithSubRoutes from "./components/Routes/RouteWithSubRoutes";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import './App.css';
+import { Container, Row, Col } from "react-bootstrap";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function App() {
     return (
@@ -12,18 +15,21 @@ function App() {
             <div className="App">
                 <div className="wrapper">
                     <Navbar />
-                    <div className="container">
-                        <Switch>
-                            {routes.map((route, i) => (
-                                <RouteWithSubRoutes key={i} {...route} />
-                            ))}
-                        </Switch>
-                    </div>
+                    <Container>
+                        <Row>
+                            <Col>
+                                <Switch>
+                                    {routes.map((route, i) => (
+                                        <RouteWithSubRoutes key={i} {...route} />
+                                    ))}
+                                </Switch>
+                            </Col>
+                        </Row>
+                    </Container>
                 </div>
                 <Footer />
             </div>
         </Router>
-
     );
 }
 

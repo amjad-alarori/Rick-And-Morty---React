@@ -12,9 +12,9 @@ class Topic extends React.Component {
             routes: props.routes,
             routeParam: props.match.params.topic,
             endpoints: {
-                "characters": "https://rickandmortyapi.com/api/character",
-                "locations": "https://rickandmortyapi.com/api/location",
-                "episodes": "https://rickandmortyapi.com/api/episode",
+                "character": "https://rickandmortyapi.com/api/character",
+                "location": "https://rickandmortyapi.com/api/location",
+                "episode": "https://rickandmortyapi.com/api/episode",
             }
         };
     }
