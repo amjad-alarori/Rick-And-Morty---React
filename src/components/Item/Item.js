@@ -1,6 +1,5 @@
 import React from "react";
 import "./Item.css";
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { Row, Col } from "react-bootstrap";
 
 class Item extends React.Component {
