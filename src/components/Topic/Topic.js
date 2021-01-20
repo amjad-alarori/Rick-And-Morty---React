@@ -65,8 +65,9 @@ class Topic extends React.Component {
         if (query_string !== "") {
             // If not empty append query to url
             url += "?" + query_string
+            console.log(url);
         }else{
-            url = page === 1?this.state.endpoints[topic]:this.state.endpoints[topic]+'?page='+page;
+            url += page === 1?"":'?page='+page;
         }
         
         fetch(url)
@@ -141,7 +142,7 @@ class Topic extends React.Component {
                         ))}
                         <ul>
                             {this.state.data ? this.state.data.map((item) => (
-                                <li key={item.id}><Link to={`/${this.state.routeParam}/${item.id}`}>{item.name}</Link>
+                                <li key={item.id}><Link to={`/${this.state.routeParam}/${item.id}`}>{item.id} {item.name}</Link>
                                 </li>
                             )) : []}
                         </ul>
