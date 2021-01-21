@@ -1,8 +1,12 @@
 import React from "react";
-import {Link, Route} from "react-router-dom";
-import {Switch} from "react-router-dom";
+import { Link, Route } from "react-router-dom";
+import { Switch } from "react-router-dom";
 import RouteWithSubRoutes from "../Routes/RouteWithSubRoutes";
 import "./Topic.css";
+import ItemCard from "../Card/ItemCard";
+import { ThemeConsumer } from "react-bootstrap/esm/ThemeProvider";
+import Pagination from 'react-bootstrap/Pagination';
+import PageItem from 'react-bootstrap/PageItem';
 
 class Topic extends React.Component {
     constructor(props) {
@@ -12,12 +16,13 @@ class Topic extends React.Component {
         this.fetchWithGet = this.fetchWithGet.bind(this);
 
         let pageParam = props.location.search;
-        pageParam = pageParam.lastIndexOf("?page=")>=0?pageParam.substr(pageParam.lastIndexOf("?page=")+6):1
+        pageParam = pageParam.lastIndexOf("?page=") >= 0 ? pageParam.substr(pageParam.lastIndexOf("?page=") + 6) : 1
 
         this.state = {
             routes: props.routes,
             routeParam: props.match.params.topic,
             page: pageParam,
+            pathName: props.location.pathname,
             endpoints: {
                 characters: {
                     url: "https://rickandmortyapi.com/api/character",
@@ -65,17 +70,17 @@ class Topic extends React.Component {
         if (query_string !== "") {
             // If not empty append query to url
             url += "?" + query_string
-            console.log(url);
-        }else{
-            url += page === 1?"":'?page='+page;
+        } else {
+            url += page === 1 ? "" : '?page=' + page;
         }
 
         fetch(url)
             .then(res => res.json())
             .then((result) => {
-                this.setState({data: result.results});
+                this.setState({ data: result.results });
+                this.setState({ info: result.info });
 
-                if(!result.error) {
+                if (!result.error) {
                     // Loop over filters in specific "topic"
                     Object.entries(filter).map(([key, value]) => {
                         // Fetch original filter
@@ -95,11 +100,11 @@ class Topic extends React.Component {
                             })
                             currentFilter[key] = new_value
                         }
-                        this.setState({filter: currentFilter})
+                        this.setState({ filter: currentFilter })
                     })
                 }
             }, () => {
-                this.setState({data: []})
+                this.setState({ data: [] })
             });
     }
 
@@ -129,7 +134,7 @@ class Topic extends React.Component {
                     <Route>
                         <h3>{this.state.routeParam}:</h3>
                         {/*Loop over each filter*/}
-                        <input type="text" onChange={this.fetchWithGet} name="name"/>
+                        <input type="text" onChange={this.fetchWithGet} name="name" />
                         {Object.keys(this.state.filter).map((item) => (
                             // If filter is not empty array create select
                             this.state.filter[item].length > 0 ?
@@ -141,15 +146,80 @@ class Topic extends React.Component {
                                     ))}
                                 </select> : null
                         ))}
-                        <ul>
+                        <div className="flex-row justify-content-around">
                             {this.state.data ? this.state.data.map((item) => (
-                                <li key={item.id}><Link to={`/${this.state.routeParam}/${item.id}`}>{item.id} {item.name}</Link>
-                                </li>
+                                <Link key={item.id} to={`/${this.state.routeParam}/${item.id}`}>
+                                    <ItemCard title={item.name}>
+                                        {item.gender ? <React.Fragment> Gender: {item.gender} <br /></React.Fragment> : ""}
+                                        {item.status ? <span> Status: {item.status} <br /></span> : ""}
+                                        {item.type ? <div> Type: {item.type} <br /></div> : ""}
+                                        {item.dimension ? <> Dimension: {item.dimension} <br /></> : ""}
+                                    </ItemCard>
+                                </Link>
                             )) : []}
-                        </ul>
+                        </div>
+
+                        <div className="flex-row justify-content-center mt-4">
+                            {this.state.page ?
+                                <Pagination>
+                                    {
+                                        this.state.page > 1 ?
+                                            (
+                                                <li class="page-item">
+                                                    {this.state.page == 2 ?
+                                                        <a class="page-link" href={this.state.pathName} aria-label="Previous">
+                                                            <span aria-hidden="true">&laquo;</span>
+                                                            <span class="sr-only">Previous</span>
+                                                        </a>
+                                                        :
+                                                        <a class="page-link" href={this.state.pathName + "?page=" + (this.state.page - 1)} aria-label="Previous">
+                                                            <span aria-hidden="true">&laquo;</span>
+                                                            <span class="sr-only">Previous</span>
+                                                        </a>}
+                                                </li>
+                                            ) :
+                                            <li class="page-item disabled">
+                                                <span class="page-link" aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                    <span class="sr-only">Previous</span>
+                                                </span>
+                                            </li>
+                                    }
+
+                                    <Pagination.Item>{this.state.page}</Pagination.Item>
+
+                                    {this.state.info ?
+                                        this.state.page < this.state.info.pages ?
+                                            <li class="page-item">
+                                                <a class="page-link" href={this.state.pathName + "?page=" + (parseInt(this.state.page) + 1)} aria-label="Previous">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                    <span class="sr-only">Next</span>
+                                                </a>
+
+
+                                            </li>
+                                            :
+                                            <li class="page-item disabled">
+                                                <span class="page-link" aria-label="Next">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                    <span class="sr-only">Next</span>
+                                                </span>
+                                            </li>
+                                        :
+                                        <li class="page-item disabled">
+                                            <span class="page-link" aria-label="Next">
+                                                <span aria-hidden="true">&laquo;</span>
+                                                <span class="sr-only">Next</span>
+                                            </span>
+                                        </li>
+                                    }
+                                </Pagination>
+                                : ''}
+                        </div>
+
                     </Route>
                 </Switch>
-            </React.Fragment>
+            </React.Fragment >
         );
     }
 }
