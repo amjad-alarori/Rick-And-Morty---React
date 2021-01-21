@@ -1,9 +1,14 @@
 import Topic from "./../Topic/Topic";
 import Item from "./../Item/Item";
 import NotFound from "./../NotFound/NotFound";
-
+import Home from "./../Home/Home";
 
 export const routes = [
+    {
+        path: '/',
+        component: Home,
+        exact: true,
+    },
     {
         path: '/:topic(characters|locations|episodes)',
         component: Topic,
@@ -15,7 +20,6 @@ export const routes = [
         ],
     },
     {
-        path: "/test404",
         component: NotFound,
     },
 ]

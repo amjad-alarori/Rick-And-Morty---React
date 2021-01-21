@@ -5,12 +5,10 @@ import './NotFound.css';
 function NotFound() {
     return (
         <div id="main">
-    	    <div class="fof">
+    	    <div className="fof">
         		<h1>Error 404 - Page not found!</h1>
                 <br/>
-                <Link to="/">
-                <h5>Go back to homepage</h5>
-                </Link>
+                <h5>Go <a href="/">back</a> to homepage</h5>
     	    </div>
         </div>
     );
