@@ -71,7 +71,7 @@ class Topic extends React.Component {
             // If not empty append query to url
             url += "?" + query_string
         } else {
-                url += page === 1 ? "" : '?page=' + page;
+            url += page === 1 ? "" : '?page=' + page;
         }
 
         fetch(url)
@@ -102,6 +102,8 @@ class Topic extends React.Component {
                         }
                         this.setState({ filter: currentFilter })
                     })
+                } else {
+                    this.props.history.goBack();
                 }
             }, () => {
                 this.setState({ data: [] })
