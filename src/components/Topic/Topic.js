@@ -102,6 +102,8 @@ class Topic extends React.Component {
                         }
                         this.setState({ filter: currentFilter })
                     })
+                } else {
+                    this.props.history.goBack();
                 }
             }, () => {
                 this.setState({ data: [] })
