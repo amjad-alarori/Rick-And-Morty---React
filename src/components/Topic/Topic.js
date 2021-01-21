@@ -4,9 +4,7 @@ import { Switch } from "react-router-dom";
 import RouteWithSubRoutes from "../Routes/RouteWithSubRoutes";
 import "./Topic.css";
 import ItemCard from "../Card/ItemCard";
-import { ThemeConsumer } from "react-bootstrap/esm/ThemeProvider";
 import Pagination from 'react-bootstrap/Pagination';
-import PageItem from 'react-bootstrap/PageItem';
 
 class Topic extends React.Component {
     constructor(props) {
