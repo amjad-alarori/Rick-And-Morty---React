@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './CategoryCard.css'
-import { Button } from 'react-bootstrap';
 import { Card } from 'react-bootstrap';
 
 
