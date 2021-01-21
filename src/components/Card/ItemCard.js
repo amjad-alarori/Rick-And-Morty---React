@@ -11,7 +11,7 @@ class ItemCard extends Component{
     render(){
         return(
             <Card>
-                 <Card.Header><Card.Title>{this.props.title}</Card.Title></Card.Header>
+                 <Card.Header className="cardHeader" ><Card.Title>{this.props.title}</Card.Title></Card.Header>
                 {/* <Card.Img variant="top" src={this.props.image} /> */}
                 <Card.Body>
                    

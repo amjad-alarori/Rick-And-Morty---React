@@ -7,8 +7,6 @@ import Footer from "./components/Footer/Footer";
 import './App.css';
 import { Container } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ItemCard from './components/Card/ItemCard';
-import CategoryCard from './components/Card/CategoryCard';
 
 function App() {
     return (
@@ -16,7 +14,7 @@ function App() {
             <div className="App">
                 <div className="wrapper">
                     <Navbar />
-                    <Container>
+                    <Container id="mainContainer">
                         <Switch>
                             {routes.map((route, i) => (
                                 <RouteWithSubRoutes key={i} {...route} />

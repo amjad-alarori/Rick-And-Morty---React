@@ -1,10 +1,12 @@
 import React from 'react';
 import CategoryCard from '../Card/CategoryCard';
-
+import './Home.css';
 class Home extends React.Component {
 
     render() {
         return (
+            
+            
             <div className="d-flex justify-content-center align-items-center h-100">
                 <a href="/characters">
                     <CategoryCard>
@@ -24,6 +26,7 @@ class Home extends React.Component {
                     </CategoryCard>
                 </a>
             </div>
+            
         )
     }
 
