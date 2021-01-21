@@ -1,6 +1,5 @@
 import React from 'react';
 import CategoryCard from '../Card/CategoryCard';
-import './Home.css';
 class Home extends React.Component {
 
     render() {

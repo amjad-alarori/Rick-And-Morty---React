@@ -1,5 +1,6 @@
 import Topic from "./../Topic/Topic";
 import Item from "./../Item/Item";
+import NotFound from "./../NotFound/NotFound";
 import Home from "./../Home/Home";
 
 export const routes = [
@@ -17,5 +18,8 @@ export const routes = [
                 component: Item,
             },
         ],
+    },
+    {
+        component: NotFound,
     },
 ]

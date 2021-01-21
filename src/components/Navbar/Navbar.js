@@ -8,7 +8,7 @@ class Navbar extends Component {
     handleClick = () => {
         this.setState({ clicked: !this.state.clicked })
     }
-    class="header__Link-sc-1lpxlh0-2 eIsSlF home-icon"
+    className="header__Link-sc-1lpxlh0-2 eIsSlF home-icon"
     render() {
         return(
             <nav className="NavbarItems">

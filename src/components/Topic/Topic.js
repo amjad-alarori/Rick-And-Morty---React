@@ -71,7 +71,7 @@ class Topic extends React.Component {
             // If not empty append query to url
             url += "?" + query_string
         } else {
-            url += page === 1 ? "" : '?page=' + page;
+                url += page === 1 ? "" : '?page=' + page;
         }
 
         fetch(url)
@@ -165,23 +165,23 @@ class Topic extends React.Component {
                                     {
                                         this.state.page > 1 ?
                                             (
-                                                <li class="page-item">
+                                                <li className="page-item">
                                                     {this.state.page == 2 ?
-                                                        <a class="page-link" href={this.state.pathName} aria-label="Previous">
+                                                        <a className="page-link" href={this.state.pathName} aria-label="Previous">
                                                             <span aria-hidden="true">&laquo;</span>
-                                                            <span class="sr-only">Previous</span>
+                                                            <span className="sr-only">Previous</span>
                                                         </a>
                                                         :
-                                                        <a class="page-link" href={this.state.pathName + "?page=" + (this.state.page - 1)} aria-label="Previous">
+                                                        <a className="page-link" href={this.state.pathName + "?page=" + (this.state.page - 1)} aria-label="Previous">
                                                             <span aria-hidden="true">&laquo;</span>
-                                                            <span class="sr-only">Previous</span>
+                                                            <span className="sr-only">Previous</span>
                                                         </a>}
                                                 </li>
                                             ) :
-                                            <li class="page-item disabled">
-                                                <span class="page-link" aria-label="Previous">
+                                            <li className="page-item disabled">
+                                                <span className="page-link" aria-label="Previous">
                                                     <span aria-hidden="true">&laquo;</span>
-                                                    <span class="sr-only">Previous</span>
+                                                    <span className="sr-only">Previous</span>
                                                 </span>
                                             </li>
                                     }
@@ -190,26 +190,26 @@ class Topic extends React.Component {
 
                                     {this.state.info ?
                                         this.state.page < this.state.info.pages ?
-                                            <li class="page-item">
-                                                <a class="page-link" href={this.state.pathName + "?page=" + (parseInt(this.state.page) + 1)} aria-label="Previous">
+                                            <li className="page-item">
+                                                <a className="page-link" href={this.state.pathName + "?page=" + (parseInt(this.state.page) + 1)} aria-label="Previous">
                                                     <span aria-hidden="true">&raquo;</span>
-                                                    <span class="sr-only">Next</span>
+                                                    <span className="sr-only">Next</span>
                                                 </a>
 
 
                                             </li>
                                             :
-                                            <li class="page-item disabled">
-                                                <span class="page-link" aria-label="Next">
-                                                    <span aria-hidden="true">&laquo;</span>
-                                                    <span class="sr-only">Next</span>
+                                            <li className="page-item disabled">
+                                                <span className="page-link" aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                    <span className="sr-only">Next</span>
                                                 </span>
                                             </li>
                                         :
-                                        <li class="page-item disabled">
-                                            <span class="page-link" aria-label="Next">
-                                                <span aria-hidden="true">&laquo;</span>
-                                                <span class="sr-only">Next</span>
+                                        <li className="page-item disabled">
+                                            <span className="page-link" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                                <span className="sr-only">Next</span>
                                             </span>
                                         </li>
                                     }
